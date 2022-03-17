@@ -49,7 +49,7 @@ const Navigation = ({ user }) => {
     const logoutHandler = async () => {
         window.open("http://localhost:8000/auth/logout", "_self");
     };
-
+    console.log("NAVBAR", user);
     return (
         <>
             <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -79,7 +79,7 @@ const Navigation = ({ user }) => {
                             ))}
                         </HStack>
                     </HStack>
-                    {user ? (
+                    {user.photos ? (
                         <Flex alignItems={"center"}>
                             <Menu>
                                 <MenuButton
