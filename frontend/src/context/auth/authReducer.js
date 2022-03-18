@@ -7,6 +7,20 @@ export default (state, action) => {
                 error: false,
                 userData: action.payload.user,
             };
+        case "ADD_FAVORITE":
+            return {
+                ...state,
+                oading: false,
+                error: false,
+                userData: action.payload.user,
+            };
+        case "REMOVE_FAVORITE":
+            return {
+                ...state,
+                oading: false,
+                error: false,
+                userData: action.payload.user,
+            };
         case "AUTH_ERROR":
             return {
                 ...state,

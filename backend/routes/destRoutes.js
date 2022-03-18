@@ -4,6 +4,7 @@ const {
     getAllDest,
     getDest,
     setDest,
+    likeDest,
     // updateDest,
     // deleteDest,
 } = require("../controllers/destController");
@@ -11,7 +12,7 @@ const {
 // const { protect } = require('../middleware/authMiddleware')
 
 router.route("/").get(getAllDest).post(setDest);
-router.route("/:id").get(getDest);
+router.route("/:id").get(getDest).post(likeDest);
 
 // router.route('/').get(protect, getDests).post(protect, setDest)
 // router.route('/:id').delete(protect, deleteDest).put(protect, updateDest)

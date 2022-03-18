@@ -1,10 +1,10 @@
 import React from "react";
+import Hero from "../components/layout/Hero";
 
 const Home = () => {
     return (
         <div>
-            <h1 className="text-3xl font-bold underline">Home Page</h1>
-            <h2>Welcome!</h2>
+            <Hero />
         </div>
     );
 };

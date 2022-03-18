@@ -47,9 +47,10 @@ const Navigation = ({ user }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     const logoutHandler = async () => {
+        localStorage.clear();
         window.open("http://localhost:8000/auth/logout", "_self");
     };
-    console.log("NAVBAR", user);
+
     return (
         <>
             <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
@@ -79,7 +80,7 @@ const Navigation = ({ user }) => {
                             ))}
                         </HStack>
                     </HStack>
-                    {user.photos ? (
+                    {user.photo ? (
                         <Flex alignItems={"center"}>
                             <Menu>
                                 <MenuButton
@@ -90,8 +91,9 @@ const Navigation = ({ user }) => {
                                     minW={0}
                                 >
                                     <Avatar
+                                        bg="green.300"
                                         size={"sm"}
-                                        src={user.photos[0].value}
+                                        src={user.photo}
                                     />
                                 </MenuButton>
                                 <MenuList>

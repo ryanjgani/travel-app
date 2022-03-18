@@ -1,12 +1,14 @@
+import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
-import Header from "../components/layout/Header";
-import Title from "../components/layout/Title";
+import FavoriteList from "../components/Favorite/FavoriteList";
 
 const Favorites = () => {
     return (
         <div>
-            <Header />
-            <Title title="My Favorites" />
+            <Center my={5}>
+                <Heading>Favorites</Heading>
+            </Center>
+            <FavoriteList />
         </div>
     );
 };

@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 
 const Destination = require("../models/destModel");
+const User = require("../models/userModel");
 // const User = require('../models/userModel')
 
 // @desc    Get goals
@@ -36,82 +37,55 @@ const setDest = asyncHandler(async (req, res) => {
         res.status(400);
         throw new Error("Please add a text field");
     }
-    // const destination = new Destination({
-    //     title: "Valley Creek",
-    //     geometry: {
-    //         type: "Point",
-    //         coordinates: [40.7127837, -74.0059413],
-    //     },
-    //     location: { city: "Jakarta", country: "Indonesia" },
-    //     likes: 21,
-    // });
 
     // await destination.save();
     res.status(200).json(destination);
 });
 
-// @desc    Update goal
-// @route   PUT /api/goals/:id
-// @access  Private
-const updateGoal = asyncHandler(async (req, res) => {
-    const goal = await Goal.findById(req.params.id);
+const likeDest = asyncHandler(async (req, res) => {
+    try {
+        const destination = await Destination.findById(req.params.id);
+        const user = await User.findById(req.user._id);
 
-    if (!goal) {
+        if (!destination || !user) {
+            res.status(400);
+            throw new Error("No destination or user found!");
+        }
+        if (req.body.addFavorite) {
+            destination.likes++;
+            user.favorites.push({
+                title: destination.title,
+                location: destination.location,
+                image: destination.image,
+                id: destination._id,
+            });
+            await destination.save();
+            await user.save();
+        } else {
+            destination.likes--;
+            await user.updateOne({
+                $pull: { favorites: { id: req.params.id } },
+            });
+        }
+
+        req.user = user;
+
+        res.status(200).json({
+            success: true,
+            user: req.user,
+        });
+    } catch (e) {
         res.status(400);
-        throw new Error("Goal not found");
+        console.log(e.message);
+        throw new Error("No destination found!");
     }
-
-    // Check for user
-    if (!req.user) {
-        res.status(401);
-        throw new Error("User not found");
-    }
-
-    // Make sure the logged in user matches the goal user
-    if (goal.user.toString() !== req.user.id) {
-        res.status(401);
-        throw new Error("User not authorized");
-    }
-
-    const updatedGoal = await Goal.findByIdAndUpdate(req.params.id, req.body, {
-        new: true,
-    });
-
-    res.status(200).json(updatedGoal);
-});
-
-// @desc    Delete goal
-// @route   DELETE /api/goals/:id
-// @access  Private
-const deleteGoal = asyncHandler(async (req, res) => {
-    const goal = await Goal.findById(req.params.id);
-
-    if (!goal) {
-        res.status(400);
-        throw new Error("Goal not found");
-    }
-
-    // Check for user
-    if (!req.user) {
-        res.status(401);
-        throw new Error("User not found");
-    }
-
-    // Make sure the logged in user matches the goal user
-    if (goal.user.toString() !== req.user.id) {
-        res.status(401);
-        throw new Error("User not authorized");
-    }
-
-    await goal.remove();
-
-    res.status(200).json({ id: req.params.id });
 });
 
 module.exports = {
     getAllDest,
     getDest,
     setDest,
+    likeDest,
     // updateGoal,
     // deleteGoal,
 };

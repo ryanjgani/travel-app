@@ -1,9 +1,15 @@
 const express = require("express");
 const router = express.Router();
 const passport = require("passport");
+const { loginJWT, registerJWT } = require("../controllers/userController");
+const User = require("../models/userModel");
 
-router.get("/login/success", (req, res) => {
+// Check for signed in user
+router.get("/login/success", async (req, res) => {
     if (req.user) {
+        const user = await User.findById(req.user._id);
+        req.user = user;
+
         res.status(200).json({
             success: true,
             message: "successful login",
@@ -19,6 +25,7 @@ router.get("/login/success", (req, res) => {
     }
 });
 
+// Google Auth routes
 router.get("/login/failed", (req, res) => {
     res.status(401).json({
         success: false,
@@ -43,5 +50,10 @@ router.get(
         failureRedirect: process.env.CLIENT_URL + "/auth/login",
     })
 );
+
+// JWT Auth Routes
+
+router.post("/signin", loginJWT);
+router.post("/signup", registerJWT);
 
 module.exports = router;

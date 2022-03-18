@@ -6,10 +6,32 @@ import {
     Text,
     Stack,
     useColorModeValue,
+    useBoolean,
+    Button,
+    Tag,
+    Tooltip,
 } from "@chakra-ui/react";
+import { useContext, useState } from "react";
+import { authContext } from "../../context/auth/auth-context";
+import ToastButton from "./Toast";
 
 export default function BlogPostWithImage({ destination }) {
-    const { title, location, likes, coordinates, image, id } = destination;
+    // const [itemIsFavorite, setitemIsFavorite] = useBoolean();
+    // const [isSignedIn, setIsSignedIn] = useState(false);
+    const { title, location, likes, coordinates, image, _id } = destination;
+
+    const { userData, addFavorite, removeFavorite, itemIsFavoriteHandler } =
+        useContext(authContext);
+
+    let isSignedIn = Object.keys(userData).length > 0;
+    console.log(isSignedIn);
+    const itemIsFavorite = isSignedIn ? itemIsFavoriteHandler(_id) : null;
+    console.log(itemIsFavorite);
+
+    console.log("CARD", userData.favorites);
+    const toggleFavoriteButton = () => {
+        itemIsFavorite ? removeFavorite(_id) : addFavorite(_id);
+    };
 
     return (
         <Center py={6}>
@@ -52,6 +74,44 @@ export default function BlogPostWithImage({ destination }) {
                     <Text color={"gray.500"}>
                         {location.city}, {location.country}
                     </Text>
+                    <Tooltip
+                        label="Log in to add to favorites!"
+                        shouldWrapChildren
+                        isDisabled={isSignedIn ? true : false}
+                        // mt="3"
+                    >
+                        <Button
+                            colorScheme="pink"
+                            variant={itemIsFavorite ? "outline" : "solid"}
+                            onClick={toggleFavoriteButton}
+                            isDisabled={!isSignedIn}
+                        >
+                            {itemIsFavorite
+                                ? "Added to Favorites"
+                                : "Add to Favorites"}
+                        </Button>
+                    </Tooltip>
+                    {/* <Button
+                        colorScheme="pink"
+                        variant={itemIsFavorite ? "outline" : "solid"}
+                        onClick={toggleFavoriteButton}
+                        isDisabled={!isSignedIn}
+                    >
+                        {itemIsFavorite
+                            ? "Added to Favorites"
+                            : "Add to Favorites"}
+                    </Button> */}
+
+                    {/* <ToastButton
+                        colorScheme="pink"
+                        variant={itemIsFavorite ? "outline" : "solid"}
+                        onClick={toggleFavoriteButton}
+                        isDisabled={!isSignedIn}
+                    >
+                        {itemIsFavorite
+                            ? "Added to Favorites"
+                            : "Add to Favorites"}
+                    </ToastButton> */}
                 </Stack>
             </Box>
         </Center>

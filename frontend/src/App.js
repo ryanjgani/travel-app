@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
 import DestinationItem from "./components/Destination/DestinationItem";
+import Footer from "./components/layout/Footer";
 import Navigation from "./components/layout/Navigation";
 import { authContext } from "./context/auth/auth-context";
 import Destinations from "./pages/Destinations";
@@ -17,22 +18,6 @@ function App() {
     const { userData, getUser } = useContext(authContext);
 
     useEffect(() => {
-        // const getUser = async () => {
-        //     setIsLoading(true);
-        //     try {
-        //         const res = await axios.get(
-        //             "http://localhost:8000/auth/login/success",
-        //             { withCredentials: true }
-        //         );
-        //         setUser(res.data.user);
-        //         setIsLoading(false);
-        //     } catch (e) {
-        //         setUser(undefined);
-        //         setIsLoading(false);
-        //     }
-        // };
-        // getUser();
-
         try {
             (async () => {
                 await getUser();
@@ -62,6 +47,7 @@ function App() {
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/login" element={<Login />} />
             </Routes>
+            <Footer />
         </div>
     );
 }
