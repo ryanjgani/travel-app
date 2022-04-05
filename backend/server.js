@@ -16,7 +16,8 @@ const app = express();
 app.use(
     cors({
         credentials: true,
-        origin: "https://travel-app-mern.herokuapp.com/",
+        // origin: "https://travel-app-mern.herokuapp.com/",
+        origin: "http://localhost:3000/",
     })
 );
 
