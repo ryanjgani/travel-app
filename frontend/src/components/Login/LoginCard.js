@@ -42,7 +42,10 @@ const LoginCard = () => {
 
     // Sign In/Out Handler
     const googleSignInHandler = () => {
-        window.open("http://localhost:8000/auth/google", "_self");
+        window.open(
+            "https://travel-app-mern.herokuapp.com/auth/google",
+            "_self"
+        );
     };
 
     const useToastHandler = () =>
