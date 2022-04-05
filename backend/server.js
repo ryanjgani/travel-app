@@ -29,6 +29,9 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.get("/", (req, res) => {
+    res.send("Travel App API");
+});
 app.use("/api/dest", require("./routes/destRoutes"));
 app.use("/auth", require("./routes/userRoutes"));
 
