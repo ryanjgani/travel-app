@@ -12,6 +12,7 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -20,10 +21,13 @@ import { FcGoogle } from "react-icons/fc";
 const LoginCard = () => {
     const [isSignup, setIsSignup] = useState(false);
     const navigate = useNavigate();
+    const toast = useToast();
+
     const initialState = {
         email: "",
         password: "",
     };
+
     const [formData, setFormData] = useState(initialState);
 
     const switchMode = () => {
@@ -41,25 +45,19 @@ const LoginCard = () => {
         window.open("http://localhost:8000/auth/google", "_self");
     };
 
-    const JWTsignInHandler = () => {
-        if (isSignup) {
-            //sign up
-
-            navigate("/");
-        } else {
-            //sign in
-
-            navigate("/");
-        }
-    };
+    const useToastHandler = () =>
+        toast({
+            title: "Sorry!",
+            position: "top",
+            description:
+                "This feature is unavailable right now. Sign In/Up with Google instead!",
+            status: "success",
+            duration: 3000,
+            isClosable: true,
+        });
 
     return (
-        <Flex
-            minH={"100vh"}
-            align={"center"}
-            justify={"center"}
-            bg={useColorModeValue("gray.50", "gray.800")}
-        >
+        <Flex minH={"100vh"} align={"center"} justify={"center"}>
             <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
                 <Stack align={"center"}>
                     <Heading fontSize={"4xl"}>Sign in to your account</Heading>
@@ -125,7 +123,7 @@ const LoginCard = () => {
                                 _hover={{
                                     bg: "blue.500",
                                 }}
-                                onClick={JWTsignInHandler}
+                                onClick={useToastHandler}
                             >
                                 {isSignup ? "Sign Up" : "Sign In"}
                             </Button>

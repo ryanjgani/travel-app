@@ -2,12 +2,17 @@ import React, { useContext, useEffect, useState } from "react";
 import DestinationList from "../components/Destination/DestinationList";
 import DestinationMap from "../components/Destination/map/DestinationMap.tsx";
 import { destinationContext } from "../context/destination/destination-context";
-import { Box, Heading, Center } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
+import TitleHeader from "../components/UI/TitleHeader";
+import SyncLoader from "react-spinners/SyncLoader";
+import Pagination from "../components/UI/Pagination";
 
 const Destinations = () => {
     const { destinations, getAllDestinations } = useContext(destinationContext);
     const [isLoading, setIsLoading] = useState(true);
-    // const [filteredData, setFilteredData] = useState(destinations);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [destinationsPerPage, setDestinationsPerPage] = useState(9);
 
     useEffect(() => {
         try {
@@ -21,17 +26,48 @@ const Destinations = () => {
         }
     }, []);
 
+    // Get current destinations
+    const lastDestIndex = currentPage * destinationsPerPage;
+    const firstDestIndex = lastDestIndex - destinationsPerPage;
+    const currentDestinations = destinations.slice(
+        firstDestIndex,
+        lastDestIndex
+    );
+
+    // Change page
+    const paginate = (pageNumber) => {
+        window.scrollTo(0, 0);
+        setCurrentPage(pageNumber);
+    };
+
     const mapData = { type: "FeatureCollection", features: destinations };
 
     return (
         <div className="layout">
             <Center my={5}>
-                <Heading>Destinations</Heading>
+                <TitleHeader>Destinations</TitleHeader>
             </Center>
-            <DestinationList destinations={destinations} />
-            <Box borderRadius="xl" w="full">
+            {isLoading ? (
+                <Center mt={5} className="content-center">
+                    <SyncLoader color="#005CC5" loading={isLoading} size={20} />
+                </Center>
+            ) : (
+                <Box>
+                    <Box pb={10} mb={10}>
+                        <DestinationList destinations={currentDestinations} />
+                    </Box>
+                    <Pagination
+                        destinationsPerPage={destinationsPerPage}
+                        totalDestinations={destinations.length}
+                        paginate={paginate}
+                        currentPage={currentPage}
+                    />
+                </Box>
+            )}
+
+            <Center py={5} borderRadius="xl" w={"100%"} mt={10}>
                 <DestinationMap mapData={mapData} />
-            </Box>
+            </Center>
         </div>
     );
 };

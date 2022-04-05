@@ -1,6 +1,6 @@
+require("dotenv").config();
 const mongoose = require("mongoose");
 const colors = require("colors");
-const dotenv = require("dotenv").config();
 const connectDB = require("../config/db");
 const Destination = require("../models/destModel");
 const { countries } = require("./countries");
@@ -28,8 +28,9 @@ const imageUrl = async (url) => {
 const sample = (array) => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
+    console.log("start seeding...");
     await Destination.deleteMany({});
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
         const randomNumber = Math.floor(Math.random() * 128767);
         const likes = Math.floor(Math.random() * 20);
         const image = await imageUrl(imageCollection[randomNumber % 3]);

@@ -1,117 +1,112 @@
 import {
-    Image,
     Box,
     Center,
     Heading,
     Text,
     Stack,
     useColorModeValue,
-    useBoolean,
     Button,
-    Tag,
     Tooltip,
+    Flex,
+    HStack,
 } from "@chakra-ui/react";
-import { useContext, useState } from "react";
+import axios from "axios";
+import { useContext, useEffect, useState } from "react";
 import { authContext } from "../../context/auth/auth-context";
-import ToastButton from "./Toast";
 
-export default function BlogPostWithImage({ destination }) {
-    // const [itemIsFavorite, setitemIsFavorite] = useBoolean();
-    // const [isSignedIn, setIsSignedIn] = useState(false);
-    const { title, location, likes, coordinates, image, _id } = destination;
+import { TiWeatherPartlySunny } from "react-icons/ti";
+
+export default function DestinationItemDesc({ destination }) {
+    const [weather, setWeather] = useState({ value: 0, desc: "" });
+
+    const { title, location, likes, geometry, image, _id } = destination;
+    const APIkey = "bfb8608d2a8ed9f4e128ed8397ce8a8c";
+    useEffect(() => {
+        const getWeather = async () => {
+            const res = await axios.get(
+                `https://api.openweathermap.org/data/2.5/weather?lat=${geometry.coordinates[1]}&lon=${geometry.coordinates[0]}&appid=${APIkey}`
+            );
+            setWeather({
+                value: Math.round(res.data.main.temp - 273.15),
+                desc: res.data.weather[0].description,
+            });
+        };
+        getWeather();
+    }, [geometry]);
 
     const { userData, addFavorite, removeFavorite, itemIsFavoriteHandler } =
         useContext(authContext);
 
     let isSignedIn = Object.keys(userData).length > 0;
-    console.log(isSignedIn);
-    const itemIsFavorite = isSignedIn ? itemIsFavoriteHandler(_id) : null;
-    console.log(itemIsFavorite);
 
-    console.log("CARD", userData.favorites);
+    const itemIsFavorite = isSignedIn ? itemIsFavoriteHandler(_id) : null;
+
     const toggleFavoriteButton = () => {
         itemIsFavorite ? removeFavorite(_id) : addFavorite(_id);
     };
 
     return (
-        <Center py={6}>
+        <Center>
             <Box
-                maxW={"445px"}
+                // maxW={"445px"}
                 w={"full"}
                 bg={useColorModeValue("white", "gray.900")}
                 boxShadow={"2xl"}
-                rounded={"md"}
+                rounded={"lg"}
                 p={6}
                 overflow={"hidden"}
             >
-                <Box
-                    h={"210px"}
-                    bg={"gray.100"}
-                    // mt={-6}
-                    // mx={-6}
-                    mb={6}
-                    pos={"relative"}
-                >
-                    <Image borderRadius="base" src={image} layout={"fill"} />
-                </Box>
                 <Stack>
-                    <Text
-                        color={"green.500"}
-                        textTransform={"uppercase"}
-                        fontWeight={800}
-                        fontSize={"sm"}
-                        letterSpacing={1.1}
-                    >
-                        Blog
-                    </Text>
-                    <Heading
-                        color={useColorModeValue("gray.700", "white")}
-                        fontSize={"2xl"}
-                        fontFamily={"body"}
-                    >
-                        {title}
-                    </Heading>
-                    <Text color={"gray.500"}>
-                        {location.city}, {location.country}
-                    </Text>
+                    <Stack spacing={4}>
+                        <Text
+                            textTransform={"uppercase"}
+                            color={"blue.400"}
+                            fontWeight={600}
+                            fontSize={"sm"}
+                            alignSelf={"flex-start"}
+                            rounded={"md"}
+                        >
+                            Destination
+                        </Text>
+                        <Heading>{title}</Heading>
+                        <Text color={"gray.500"} fontSize={"lg"}>
+                            {location.city}, {location.country}
+                        </Text>
+                        <Text>Likes: {itemIsFavorite ? likes + 1 : likes}</Text>
+                    </Stack>
                     <Tooltip
                         label="Log in to add to favorites!"
                         shouldWrapChildren
                         isDisabled={isSignedIn ? true : false}
-                        // mt="3"
                     >
-                        <Button
-                            colorScheme="pink"
-                            variant={itemIsFavorite ? "outline" : "solid"}
-                            onClick={toggleFavoriteButton}
-                            isDisabled={!isSignedIn}
-                        >
-                            {itemIsFavorite
-                                ? "Added to Favorites"
-                                : "Add to Favorites"}
-                        </Button>
-                    </Tooltip>
-                    {/* <Button
-                        colorScheme="pink"
-                        variant={itemIsFavorite ? "outline" : "solid"}
-                        onClick={toggleFavoriteButton}
-                        isDisabled={!isSignedIn}
-                    >
-                        {itemIsFavorite
-                            ? "Added to Favorites"
-                            : "Add to Favorites"}
-                    </Button> */}
+                        <Flex justifyContent={"space-between"}>
+                            <Box>
+                                <Button
+                                    my={2}
+                                    colorScheme="pink"
+                                    variant={
+                                        itemIsFavorite ? "outline" : "solid"
+                                    }
+                                    onClick={toggleFavoriteButton}
+                                    isDisabled={!isSignedIn}
+                                >
+                                    {itemIsFavorite
+                                        ? "Added to Favorites"
+                                        : "Add to Favorites"}
+                                </Button>
+                            </Box>
 
-                    {/* <ToastButton
-                        colorScheme="pink"
-                        variant={itemIsFavorite ? "outline" : "solid"}
-                        onClick={toggleFavoriteButton}
-                        isDisabled={!isSignedIn}
-                    >
-                        {itemIsFavorite
-                            ? "Added to Favorites"
-                            : "Add to Favorites"}
-                    </ToastButton> */}
+                            <Box>
+                                <HStack my="4">
+                                    <TiWeatherPartlySunny />
+                                    <Text my={2} color={"green.500"}>
+                                        {weather.value}°C{" "}
+                                        {weather.desc.toLocaleUpperCase()}
+                                    </Text>
+                                </HStack>
+                            </Box>
+                        </Flex>
+                    </Tooltip>
                 </Stack>
             </Box>
         </Center>

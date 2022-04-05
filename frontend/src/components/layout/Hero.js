@@ -5,10 +5,10 @@ import {
     Text,
     Button,
     Stack,
-    Icon,
-    useColorModeValue,
     createIcon,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 export default function CallToActionWithAnnotation() {
     return (
@@ -20,48 +20,68 @@ export default function CallToActionWithAnnotation() {
                     spacing={{ base: 8, md: 14 }}
                     py={{ base: 20, md: 36 }}
                 >
-                    <Heading
-                        fontWeight={1000}
-                        fontFamily={"Inter"}
-                        fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
-                        lineHeight={"110%"}
+                    <motion.div
+                        initial={{ y: 250, opacity: 0 }}
+                        animate={{ y: 20, opacity: 1 }}
+                        transition={{ duration: 0.8, type: "tween" }}
                     >
-                        Explore our <br />
-                        <Text as={"span"} color={"green.400"}>
-                            Many Destinations
-                        </Text>
-                    </Heading>
-                    <Text color={"gray.500"}>
-                        Monetize your content by charging your most loyal
-                        readers and reward them loyalty points. Give back to
-                        your loyal readers by granting them access to your
-                        pre-releases and sneak-peaks.
+                        <Heading
+                            fontWeight={1000}
+                            // fontFamily={"Inter"}
+                            fontSize={{ base: "4xl", sm: "5xl", md: "7xl" }}
+                            lineHeight={"110%"}
+                        >
+                            Explore Our <br />
+                            <Text
+                                as={"span"}
+                                color={"green.400"}
+                                bgGradient="linear(to-r, #11998e, #2DD682 50%)"
+                                bgClip="text"
+                            >
+                                Many Destinations
+                            </Text>
+                        </Heading>
+                    </motion.div>
+
+                    <Text
+                        color={"gray.500"}
+                        fontSize={{ base: "xl", sm: "1xl", md: "2xl" }}
+                    >
+                        The world is not in your books and maps, it's out there
                     </Text>
                     <Stack
-                        direction={"column"}
+                        direction={"row"}
                         spacing={3}
                         align={"center"}
                         alignSelf={"center"}
                         position={"relative"}
                     >
-                        <Button
-                            colorScheme={"green"}
-                            bg={"green.400"}
-                            rounded={"full"}
-                            px={6}
-                            _hover={{
-                                bg: "green.500",
-                            }}
-                        >
-                            Get Started
-                        </Button>
-                        <Button
-                            variant={"link"}
-                            colorScheme={"blue"}
-                            size={"sm"}
-                        >
-                            Learn more
-                        </Button>
+                        <Link to="/destinations">
+                            <Button
+                                colorScheme={"green"}
+                                bg="#25C685"
+                                rounded={15}
+                                size="lg"
+                                px={6}
+                                _hover={{
+                                    bg: "#1EB489",
+                                }}
+                            >
+                                Get Started
+                            </Button>
+                        </Link>
+
+                        <Link to="/login">
+                            <Button
+                                rounded={15}
+                                size="lg"
+                                px={6}
+                                variant="outline"
+                                colorScheme={"green"}
+                            >
+                                Sign up
+                            </Button>
+                        </Link>
                     </Stack>
                 </Stack>
             </Container>

@@ -1,3 +1,4 @@
+import { Center, chakra } from "@chakra-ui/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
@@ -5,6 +6,7 @@ import "./App.css";
 import DestinationItem from "./components/Destination/DestinationItem";
 import Footer from "./components/layout/Footer";
 import Navigation from "./components/layout/Navigation";
+import NotFound from "./components/UI/NotFound";
 import { authContext } from "./context/auth/auth-context";
 import Destinations from "./pages/Destinations";
 import Favorites from "./pages/Favorites";
@@ -32,9 +34,9 @@ function App() {
     if (isLoading) {
         return <div>Loading...</div>;
     }
-    console.log(userData);
+
     return (
-        <div>
+        <chakra.div bgGradient="linear(to-b, #c9f6e7, #FFFFFF)" minH={"100vh"}>
             <Navigation user={userData} />
 
             <Routes>
@@ -46,9 +48,12 @@ function App() {
                 />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/login" element={<Login />} />
+                <Route path="*" element={<NotFound />} />
             </Routes>
-            <Footer />
-        </div>
+            <Center>
+                <Footer />
+            </Center>
+        </chakra.div>
     );
 }
 

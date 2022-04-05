@@ -1,5 +1,6 @@
-import { Box, Input } from "@chakra-ui/react";
+import { Input, InputGroup, InputLeftElement, Stack } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { BsSearch } from "react-icons/bs";
 
 const Search = (props) => {
     const [text, setText] = useState("");
@@ -10,18 +11,20 @@ const Search = (props) => {
     };
 
     return (
-        <Box mb={5}>
-            <form>
+        <Stack spacing={4}>
+            <InputGroup>
+                <InputLeftElement
+                    pointerEvents="none"
+                    children={<BsSearch color="gray.300" />}
+                />
                 <Input
                     type="text"
-                    className="rounded-lg border-transparent flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                    placeholder="Search..."
-                    value={text}
-                    onChange={(e) => onChange(e.target.value)}
-                    autoFocus
+                    placeholder="Search"
+                    _placeholder={{ opacity: 1, color: "gray.500" }}
+                    onChange={onChange}
                 />
-            </form>
-        </Box>
+            </InputGroup>
+        </Stack>
     );
 };
 

@@ -55,7 +55,7 @@ const likeDest = asyncHandler(async (req, res) => {
             destination.likes++;
             user.favorites.push({
                 title: destination.title,
-                location: destination.location,
+                location: `${destination.location.city}, ${destination.location.country}`,
                 image: destination.image,
                 id: destination._id,
             });
@@ -63,9 +63,17 @@ const likeDest = asyncHandler(async (req, res) => {
             await user.save();
         } else {
             destination.likes--;
-            await user.updateOne({
-                $pull: { favorites: { id: req.params.id } },
+            let ObjectId;
+            user.favorites.forEach((item) => {
+                if (item.id === req.params.id) {
+                    ObjectId = item._id;
+                }
             });
+            user.favorites.pull(ObjectId);
+            // await user.updateOne({
+            //     $pull: { favorites: { id: [req.params.id] } },
+            // });
+            await user.save();
         }
 
         req.user = user;

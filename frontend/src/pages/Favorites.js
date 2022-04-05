@@ -1,15 +1,16 @@
-import { Center, Heading } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 import React from "react";
 import FavoriteList from "../components/Favorite/FavoriteList";
+import TitleHeader from "../components/UI/TitleHeader";
 
 const Favorites = () => {
     return (
-        <div>
+        <Box minH={"100vh"}>
             <Center my={5}>
-                <Heading>Favorites</Heading>
+                <TitleHeader>Favorites</TitleHeader>
             </Center>
             <FavoriteList />
-        </div>
+        </Box>
     );
 };
 

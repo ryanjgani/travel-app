@@ -48,7 +48,11 @@ const DestinationMap = ({ destination, mapData }) => {
                         longitude,
                         zoom,
                     }}
-                    style={{ width: 800, height: 300, padding: 10 }}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        padding: 50,
+                    }}
                     mapStyle="mapbox://styles/mapbox/streets-v11"
                     mapboxAccessToken={MAPBOX_TOKEN}
                 >
@@ -127,7 +131,6 @@ const DestinationMap = ({ destination, mapData }) => {
                     id="destinations"
                     type="geojson"
                     data={mapData}
-                    // data="https://docs.mapbox.com/mapbox-gl-js/assets/destinations.geojson"
                     cluster={true}
                     clusterMaxZoom={14}
                     clusterRadius={50}
@@ -137,9 +140,9 @@ const DestinationMap = ({ destination, mapData }) => {
                     <Layer {...unclusteredPointLayer} />
                 </Source>
 
-                <div className="sidebar">
+                {/* <div className="sidebar">
                     Longitude: {lng} | Latitude: {lat} | Zoom: {focus}
-                </div>
+                </div> */}
 
                 {popupInfo && (
                     <Popup
