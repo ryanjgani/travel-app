@@ -6,6 +6,7 @@ const User = require("../models/userModel");
 
 // Check for signed in user
 router.get("/login/success", async (req, res) => {
+    console.log(req.user);
     if (req.user) {
         const user = await User.findById(req.user._id);
         req.user = user;
@@ -46,7 +47,7 @@ router.get(
 router.get(
     "/google/callback",
     passport.authenticate("google", {
-        successRedirect: "http://localhost:3000",
+        successRedirect: "http://localhost:3000/",
         failureRedirect: process.env.CLIENT_URL + "/auth/login",
     })
 );
