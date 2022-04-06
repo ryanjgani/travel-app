@@ -9,8 +9,7 @@ passport.use(
         {
             clientID: process.env.GOOGLE_CLIENT_ID,
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-            callbackURL:
-                "https://travel-app-mern.herokuapp.com/auth/google/callback",
+            callbackURL: "/auth/google/callback",
         },
         function (accessToken, refreshToken, profile, done) {
             // done(null, profile);
