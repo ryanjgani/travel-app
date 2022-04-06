@@ -43,7 +43,8 @@ const LoginCard = () => {
     // Sign In/Out Handler
     const googleSignInHandler = () => {
         window.open(
-            "https://travel-app-mern.herokuapp.com/auth/google",
+            "http://localhost:8000/auth/google",
+            // "https://travel-app-mern.herokuapp.com/auth/google",
             "_self"
         );
     };

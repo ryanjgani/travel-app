@@ -51,7 +51,8 @@ const Navigation = ({ user }) => {
     const logoutHandler = async () => {
         localStorage.clear();
         window.open(
-            "https://travel-app-mern.herokuapp.com/auth/logout",
+            "http://localhost:8000/auth/logout",
+            // "https://travel-app-mern.herokuapp.com/auth/logout",
             "_self"
         );
     };

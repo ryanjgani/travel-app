@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8000;
 require("./auth/passport");
 
 connectDB();
@@ -18,6 +18,7 @@ app.use(
         credentials: true,
         // origin: "https://travel-app-mern.herokuapp.com/",
         origin: "http://localhost:3000",
+        // client URL
     })
 );
 
