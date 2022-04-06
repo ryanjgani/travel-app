@@ -45,14 +45,10 @@ router.get(
 
 router.get(
     "/google/callback",
-    (req, res) => {
-        console.log("HELLO WORLD");
-        res.send("here");
-    }
-    // passport.authenticate("google", {
-    //     successRedirect: process.env.CLIENT_URL,
-    //     failureRedirect: process.env.CLIENT_URL + "/auth/login",
-    // })
+    passport.authenticate("google", {
+        successRedirect: "http://localhost:3000",
+        failureRedirect: process.env.CLIENT_URL + "/auth/login",
+    })
 );
 
 // JWT Auth Routes
