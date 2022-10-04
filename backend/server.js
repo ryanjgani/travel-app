@@ -17,7 +17,7 @@ app.use(
     cors({
         credentials: true,
         // origin: "https://travel-app-mern.herokuapp.com/",
-        origin: "http://localhost:3000",
+        origin: process.env.CLIENT_URL,
         // client URL
     })
 );
@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-    res.send("Travel App API");
+    res.send("Travel App Backend API");
 });
 app.use("/api/dest", require("./routes/destRoutes"));
 app.use("/auth", require("./routes/userRoutes"));

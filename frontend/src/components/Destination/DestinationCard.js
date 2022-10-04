@@ -7,14 +7,11 @@ import {
     Text,
     Stack,
     useColorModeValue,
-    Button,
     Link,
-    HStack,
 } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import axios from "axios";
-import { TiWeatherPartlySunny } from "react-icons/ti";
 
 const DestinationCard = (props) => {
     const [weather, setWeather] = useState({ value: 0, desc: "" });

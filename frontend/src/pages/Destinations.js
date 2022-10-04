@@ -51,6 +51,10 @@ const Destinations = () => {
                 <Center mt={5} className="content-center">
                     <SyncLoader color="#005CC5" loading={isLoading} size={20} />
                 </Center>
+            ) : destinations.length == 0 ? (
+                <Center mt={5} className="content-center">
+                    <h2>No Destinations found</h2>
+                </Center>
             ) : (
                 <Box>
                     <Box pb={10} mb={10}>

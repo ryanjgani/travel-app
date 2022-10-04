@@ -1,5 +1,4 @@
 import { Center, chakra } from "@chakra-ui/react";
-import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import "./App.css";
@@ -31,10 +30,11 @@ function App() {
         }
     }, []);
 
-    if (isLoading) {
-        return <div>Loading...</div>;
-    }
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
 
+    console.log(process.env, process.env.REACT_APP_CLIENT_URL);
     return (
         <chakra.div bgGradient="linear(to-b, #c9f6e7, #FFFFFF)" minH={"100vh"}>
             <Navigation user={userData} />

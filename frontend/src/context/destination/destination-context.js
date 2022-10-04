@@ -18,7 +18,7 @@ export default (props) => {
     const getAllDestinations = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:8000/api/dest"
+                `${process.env.REACT_APP_SERVER_URL}/api/dest`
                 // "https://travel-app-mern.herokuapp.com/api/dest"
             );
             dispatch({
@@ -28,7 +28,7 @@ export default (props) => {
         } catch (e) {
             dispatch({
                 type: "DESTINATION_ERROR",
-                payload: e.response.data.error,
+                payload: e,
             });
         }
     };
@@ -36,7 +36,7 @@ export default (props) => {
     const getSingleDestination = async (destId) => {
         try {
             const res = await axios.get(
-                `http://localhost:8000/api/dest/${destId}`
+                `${process.env.REACT_APP_SERVER_URL}/api/dest/${destId}`
                 // `https://travel-app-mern.herokuapp.com/api/dest/${destId}`
             );
             dispatch({

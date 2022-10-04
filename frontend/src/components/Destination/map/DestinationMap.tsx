@@ -72,7 +72,7 @@ const DestinationMap = ({ destination, mapData }) => {
             city: data.location.city,
             country: data.location.country,
             image: data.image,
-            link: `http://localhost:3000/destinations/${data._id}`,
+            link: `${process.env.REACT_APP_CLIENT_URL}/destinations/${data._id}`,
             id: data._id,
             longitude: data.geometry.coordinates[0],
             latitude: data.geometry.coordinates[1],

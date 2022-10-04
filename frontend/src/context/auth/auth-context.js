@@ -17,7 +17,7 @@ export default (props) => {
     const getUser = async () => {
         try {
             const res = await axios.get(
-                "http://localhost:8000/auth/login/success",
+                `${process.env.REACT_APP_SERVER_URL}/auth/login/success`,
                 // "https://travel-app-mern.herokuapp.com/auth/login/success",
                 { withCredentials: true }
             );
@@ -28,7 +28,7 @@ export default (props) => {
         } catch (e) {
             dispatch({
                 type: "AUTH_ERROR",
-                payload: e.response.data,
+                payload: e,
             });
         }
     };
@@ -39,9 +39,8 @@ export default (props) => {
 
     const addFavorite = async (destId) => {
         try {
-            console.log(state.userData);
             const res = await axios.post(
-                `http://localhost:8000/api/dest/${destId}`,
+                `${process.env.REACT_APP_SERVER_URL}/api/dest/${destId}`,
                 // `https://travel-app-mern.herokuapp.com/api/dest/${destId}`,
                 { addFavorite: true },
                 { withCredentials: true }
@@ -61,7 +60,7 @@ export default (props) => {
     const removeFavorite = async (destId) => {
         try {
             const res = await axios.post(
-                `http://localhost:8000/api/dest/${destId}`,
+                `${process.env.REACT_APP_SERVER_URL}/api/dest/${destId}`,
                 // `https://travel-app-mern.herokuapp.com/api/dest/${destId}`,
                 { addFavorite: false },
                 { withCredentials: true }

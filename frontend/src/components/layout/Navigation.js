@@ -10,7 +10,6 @@ import {
     MenuButton,
     MenuList,
     MenuItem,
-    MenuDivider,
     useDisclosure,
     Stack,
     Container,
@@ -51,7 +50,7 @@ const Navigation = ({ user }) => {
     const logoutHandler = async () => {
         localStorage.clear();
         window.open(
-            "http://localhost:8000/auth/logout",
+            `${process.env.REACT_APP_SERVER_URL}/auth/logout`,
             // "https://travel-app-mern.herokuapp.com/auth/logout",
             "_self"
         );
