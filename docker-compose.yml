@@ -1,0 +1,26 @@
+version: "3.7"
+
+services:
+    node:
+        build:
+            dockerfile: Dockerfile
+        image: travelapp-backend-img
+        container_name: travelapp-backend
+        command: npm start
+        ports:
+            - "8000:8000"
+        env_file: .env
+        environment:
+            - NODE_ENV=development
+
+    react:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile
+        image: travelapp-frontend-img
+        container_name: travelapp-frontend
+        command: npm start
+        ports:
+            - "3000:3000"
+        depends_on:
+            - node
