@@ -20,6 +20,7 @@ services:
         image: travelapp-frontend-img
         container_name: travelapp-frontend
         command: npm start
+        env_file: .env
         ports:
             - "3000:3000"
         depends_on:

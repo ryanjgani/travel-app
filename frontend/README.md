@@ -1,70 +1,45 @@
-# Getting Started with Create React App
+# Deploy Docker Image on Kubernetes
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### Frontend React app
 
-## Available Scripts
+**Docker configuration**  
+Make sure you are at the `./frontend` folder
 
-In the project directory, you can run:
+-   Ensure Docker is running
+-   Create Docker file `Dockerfile.prod`
+-   Build Docker image
 
-### `npm start`
+        $ docker build -t <DockerHub_username>/travel-app-frontend -f Dockerfile.prod .
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+-   Push the image to Docker Hub
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+        $ docker push <DockerHub_username>/travel-app-frontend
 
-### `npm test`
+-   Create Kubernetes deployment and service file `k8.yaml`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**Kubernetes configuration**
 
-### `npm run build`
+-   Ensure Minikube is running
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+        $ minikube start
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+-   Create a deployment using `k8.yaml` (change image name to your image in line 17)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+        $ kubectl apply -f k8.yaml
 
-### `npm run eject`
+-   Check that the deployed app is running on the set deployment pod
+    ```
+    $ kubectl get pods
+    $ kubectl get svc
+    ```
+-   Once the pods are running, you can access the Kubernetes-deployed app service
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+        $ minikube service travel-app-frontend-svc
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+    This will assign Kubernetes a static local URL and run your application on the browser.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+**Clean up**
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    $ kubectl delete svc travel-app-frontend-svc
+    $ kubectl delete deployment travel-app-frontend
+    $ minikube stop

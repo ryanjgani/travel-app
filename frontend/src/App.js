@@ -13,28 +13,18 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 
 function App() {
-    // const [user, setUser] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
-
     const { userData, getUser } = useContext(authContext);
 
     useEffect(() => {
         try {
             (async () => {
                 await getUser();
-                setIsLoading(false);
             })();
         } catch (e) {
             console.log(e);
-            setIsLoading(false);
         }
     }, []);
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
-
-    console.log(process.env, process.env.REACT_APP_CLIENT_URL);
     return (
         <chakra.div bgGradient="linear(to-b, #c9f6e7, #FFFFFF)" minH={"100vh"}>
             <Navigation user={userData} />
