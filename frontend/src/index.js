@@ -10,6 +10,10 @@ import theme from "./theme";
 import "@fontsource/inter";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./index.css";
+import mapboxgl from "mapbox-gl";
+
+mapboxgl.workerClass =
+    require("worker-loader!mapbox-gl/dist/mapbox-gl-csp-worker").default;
 
 ReactDOM.render(
     <React.StrictMode>
