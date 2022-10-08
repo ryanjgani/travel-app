@@ -5,7 +5,7 @@ on:
         branches: [master]
 
 jobs:
-    test_pull_request:
+    build_test_push_node_to_docker:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
@@ -16,7 +16,7 @@ jobs:
             - run: npm ci
             - run: npm test
             - uses: mr-smithers-excellent/docker-build-push@v5
-              name: Build & push Docker image
+              name: Build & push Docker image to Docker Hub
               with:
                   image: ryanjgani/travel-app-backend
                   registry: docker.io
