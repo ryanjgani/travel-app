@@ -44,4 +44,8 @@ app.use("/auth", require("./routes/userRoutes"));
 
 app.use(errorHandler);
 
+console.log(`You are running on ${process.env.NODE_ENV} mode`);
+
 app.listen(port, () => console.log(`Listening on port ${port}`));
+
+module.exports = app;
