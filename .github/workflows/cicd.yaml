@@ -1,0 +1,51 @@
+name: Continuous Integration
+
+on:
+    push:
+        branches: [master]
+
+jobs:
+    build_test_push_node_to_docker:
+        name: Build and Test image
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - name: Setup Node
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+            - run: npm ci
+            - run: npm test
+
+    push-docker-image:
+        name: Push Docker Image to Docker Hub
+        needs: build_test_push_node_to_docker
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: mr-smithers-excellent/docker-build-push@v5
+              name: Build & push Docker image to Docker Hub
+              with:
+                  image: ryanjgani/travel-app-backend
+                  tags: master
+                  registry: docker.io
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
+
+    deployment:
+        name: Deploy to Production
+        needs: [build_test_push_node_to_docker, push-docker-image]
+        runs-on: ubuntu-latest
+        steps:
+            - name: Execute updates for the DigitalOcean server
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  key: ${{ secrets.KEY }}
+                  port: ${{ secrets.PORT }}
+                  script: bash deployment.sh
+            - name: Trigger Netlify Build Hook
+              uses: wei/curl@v1
+              with:
+                  args: -X POST https://api.netlify.com/build_hooks/634250dea145c45407ad3a49
