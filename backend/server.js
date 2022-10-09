@@ -37,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-    res.send("Travel App Backend API 🏖️");
+    res.send("Travel App Backend API 🏖️🌊🌴");
 });
 app.use("/api/dest", require("./routes/destRoutes"));
 app.use("/auth", require("./routes/userRoutes"));
