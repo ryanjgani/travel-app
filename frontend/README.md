@@ -1,4 +1,4 @@
-# Deploy Docker Image on Kubernetes
+# Deploy Docker Image on Kubernetes using Minikube
 
 ### Frontend React app
 
