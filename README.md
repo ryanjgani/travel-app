@@ -2,8 +2,6 @@
 
 ![](https://github.com/ryanjgani/travel-app/blob/master/demo/travelapp-workflow.jpg?raw=true)
 
-![](https://github.com/ryanjgani/travel-app/blob/master/demo/travelapp-workflow.jpg?raw=true)
-
 ## Project Goals
 
 This project aims to create a full stack web application using the **MERN stack** (MongoDB, Express, React, Node), dockerize the application, and deploy the image through a simple CI/CD pipeline using Github Actions.
