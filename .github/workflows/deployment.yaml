@@ -1,4 +1,4 @@
-name: Digital Ocean Continuous Deployment
+name: Continuous Deployment
 
 on:
     push:
@@ -6,7 +6,7 @@ on:
 
 jobs:
     deployment:
-        name: Deployment on DigitalOcean Server
+        name: Server Deployment on DigitalOcean & Client Deployment on Netlify
         runs-on: ubuntu-latest
         steps:
             - name: Execute updates for the DigitalOcean server
@@ -17,3 +17,7 @@ jobs:
                   key: ${{ secrets.KEY }}
                   port: ${{ secrets.PORT }}
                   script: bash deployment.sh
+            - name: Trigger Netlify Build Hook
+              uses: wei/curl@v1
+              with:
+                  args: -X POST https://api.netlify.com/build_hooks/634250dea145c45407ad3a49
